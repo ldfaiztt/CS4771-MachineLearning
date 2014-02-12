@@ -8,12 +8,9 @@ x = x(:);
 %   x2^3 x2^2 x2
 %   x3^3 x3^2 x3
 
+x_new = [];
 for i = 1:size(RealThetas, 1) - 1
-    if i == 1
-        x_new = [x.^i];
-    else
-        x_new = [x.^i x_new];
-    end;
+    x_new = [x.^i x_new];
 end;
 
 % then SimHousingPrices will add the 1's column,
