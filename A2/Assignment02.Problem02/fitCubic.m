@@ -29,18 +29,48 @@ for run = 1:size(train_test, 1)
     dlmwrite(strcat('y.test.[',  int2str(run), '].txt'), test_out);
 
     % perform polynomial curve fitting for degrees (0-8)
-    x_new = [];
+    x_train = [];
+    x_test  = [];
+    
+    test_risk = [];
+    train_risk = [];
     for deg = 0:8
         % create the matrix of x values (like in SimPoly)
-        x_new = [train_in.^deg x_new];
+        x_train = [train_in.^deg x_train];
+        x_test  = [test_in.^deg  x_test];
         
         % calculate optimal coefficients using pseudoinverse
-        theta_star = pinv(x_new) * train_out;
+        theta_star = pinv(x_train) * train_out;
 
         % write theta star coefficients to files
         ts_fname = strcat('ThetaStar.[', int2str(run), '].[', int2str(deg), '].txt');
         dlmwrite(ts_fname, theta_star);
         
+        % calculate risks - should be between 0 and 1???
+        train_r = (1/(2*N)) * norm((train_out - x_train*theta_star))^2;
+        test_r = (1/(2*N)) * norm((test_out - x_test*theta_star))^2;
+        
+        % add the risk to the list of risks
+        train_risk = [train_risk; train_r];
+        test_risk =  [test_risk; test_r];
     end;
+    
+    % plot the risks
+    figure(run);
+    subplot(2,1,1);
+    scatter(0:8, train_risk);
+    title('Training Risk');
+    xlabel('degree');
+    ylabel('risk value');
+    subplot(2,1,2);
+    scatter(0:8, test_risk);
+    title('Testing Risk');
+    xlabel('degree');
+    ylabel('risk value');
+    
+    % write risk out to file
+    dlmwrite(strcat('Risk.train.[', int2str(run), '].txt'), train_risk);
+    dlmwrite(strcat('Risk.test.[', int2str(run), '].txt'), test_risk);
+    
 end;
 
