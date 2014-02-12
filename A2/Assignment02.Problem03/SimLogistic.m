@@ -1,6 +1,6 @@
 function y = SimLogistic(RealThetas, x)
-% StdDev not defined in problem description, so choose 0.5
-StdDev = 0.5;
+% StdDev not defined in problem description, so choose 0
+StdDev = 0;
 
 % ensure that input is column vector
 RealThetas = RealThetas(:);
