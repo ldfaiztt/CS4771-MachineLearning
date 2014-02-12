@@ -1,12 +1,15 @@
 function y = SimLogistic(RealThetas, x)
-z = 
+% StdDev not defined in problem description, so choose 0.5
+StdDev = 0.5;
 
-% calc probability
-pr = 1/(1 + exp(-z));
+% ensure that input is column vector
+RealThetas = RealThetas(:);
 
+% use SimHousingPrices
+z = SimHousingPrices(RealThetas, StdDev, x);
 
-%binary output 
-if pr < 0.5
-    y = 0;
-else
-    y = 1;
+% calculate the probability
+pr = 1./(1 + exp(-z));
+
+% binary output based on probability
+y = pr > 0.5;
