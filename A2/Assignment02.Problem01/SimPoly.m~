@@ -1,0 +1,23 @@
+function y = SimPoly(RealThetas, StdDev, x)
+% ensure that inputs are column vectors
+RealThetas = RealThetas(:);
+x = x(:);
+
+% calculate a column vector of normally-distributed random variables%
+e = normrnd(0, StdDev, size(x));
+% evaluate polynomial with RealThetas coefficients
+mid_check = polyval(RealThetas, x) + e
+
+% create usable form of x matrix
+for i = 1:size(RealThetas, 1) - 1
+    if i ==1
+        xnew = [x.^i];
+    else
+        xnew = [x.^i xnew];
+    end;
+end;
+
+
+y = SimHousingPrices(RealThetas, StdDev, xnew);
+
+
