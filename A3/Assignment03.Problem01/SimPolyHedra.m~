@@ -1,0 +1,16 @@
+function x = SimPolyHedra(N, Bounds, Polyhedra)
+% simulate N uniformly-drawn points with bounds of polyhedra
+% 1st stage of uniformly drawing > N points within box of Bounds
+
+% generate N uniformly random vectors of dim D
+N_points = rand(N, size(Bounds, 1));
+
+% transform random numbers to within bounds
+for i = 1:size(Bounds, 1))
+    min = Bounds(i, 2);
+    max = Bounds(i, 1);
+    N_points(:, i) = (max-min)*N_points(:,1) + min
+    
+% 2nd stage of filtering (only the first N within the polyhedra)
+
+x = %blah
