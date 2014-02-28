@@ -29,11 +29,23 @@ for k_count = 1:size(k_list, 2)
     
     x_new = [ones(size(x_train, 1), 1) x_train];
     z = 1 ./ (1 + exp(-ThetaStar' * x_new'));
-    train_loss = (y_train-1)'*log(1-z)' - y_train'*log(z)';
+    z1 = log(1-z);
+    z1(isnan(z1)) = 0;
+    z1(isinf(z1)) = 0;
+    z2 = log(z);
+    z2(isnan(z2)) = 0;
+    z2(isinf(z2)) = 0;
+    train_loss = (y_train-1)'*z1' - y_train'*z2';
     
     x_new = [ones(size(x_test, 1), 1) x_test];
     z = 1 ./ (1 + exp(-ThetaStar' * x_new'));
-    test_loss = (y_test-1)'*log(1-z)' - y_test'*log(z)';
+    z1 = log(1-z);
+    z1(isnan(z1)) = 0;
+    z1(isinf(z1)) = 0;
+    z2 = log(z);
+    z2(isnan(z2)) = 0;
+    z2(isinf(z2)) = 0;
+    test_loss = (y_test-1)'*z1' - y_test'*z2';
     
     % write run results to file
     run_mat = [eta, epsilon, StartingTheta', ThetaStar', train_loss, test_loss, runtime];
