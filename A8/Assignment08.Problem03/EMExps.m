@@ -14,6 +14,52 @@ function [ lambdas, proportions, components, responsibilities] = EMExps( data, K
 % responsibilities - an N x K matrix whose i,j entry is the inferred posterior probability
 % of the j-th exponential being responsible to data(i) 
 %%
+N = size(data, 1);
+components = zeros(N, K);
+responsibilities = zeros(N,K);
 
+% initialize (randomly) lambdas and proportions
+lambdas = rand(1,K);
+proportions = rand(1,K);
+proportions = proportions / sum(proportions); % must sum to 1
 
+% check for little change
+diff = 1000;
+
+while diff > 10
+    % E step
+    t=0;
+    for j=1:K
+        t_j = sum (proportions(j) * lambdas(j) * exp(-lambdas(j) * data));
+        t=t+t_j;
+    end
+    for k=1:K
+        lam = lambdas(k);
+        components(:,k) = proportions(k)*lam*exp(-lam*data) / t;
+    end;
+
+    % M step
+    % z=zeros(N,K);
+    % for i=1:K
+    %     z = z + components(:,i)*data(:);
+    % end
+    
+    c = zeros(1,K);
+    for i=1:N
+        c = c + components(i,:) .* data(i);
+    end
+    
+    new_lambdas = sum(components,1) ./ c;
+    
+    
+    new_proportions = proportions;
+    %lambda   sum {i=1:N} gamma(z_i) / sum {i=1:N} gamma(z_i)*x_i
+    
+    %components(i) / N
+    
+
+    % update diff to check for change
+    diff = lambdas-new_lambdas;
+    lambdas=new_lambdas;
+end;
 
