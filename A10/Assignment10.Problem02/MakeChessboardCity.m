@@ -70,11 +70,8 @@ t3 = [0.95 0.65 0.65 0.65 0.35 0.35 0.35 0.05 ...
 for letter=1:7
     for j=2:8
         bnet.CPD{letter*i+j} = tabular_CPD(bnet, letter*i+j, t3);
-        disp(letter*i+j)
     end
 end
-
-
 
 ChessboardCity = bnet;
 end
