@@ -1,4 +1,4 @@
-function [ marginal ] = GetMarginalGivenSeveral(nodes)
+function [ marginal ] = GetMarginalsGivenSeveral(nodes)
 %A11:Problem3
 %GetMarginalGivenSeveral
 % compute marginal probabilities for Chessboard City sensors
