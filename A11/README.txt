@@ -15,3 +15,6 @@ Please note this returns a 8x2 vector of marginal probabilities, the probability
 Problem 3:
 If you input a significant number of nodes, this method may take a few seconds.
 Please note the input is a vector (ie GetMarginalGivenSeveral([1,2,3]);)
+
+Problem 4:
+This can take a few seconds, considering that for each sensor node it builds a marginal probability table that is different from the others.
